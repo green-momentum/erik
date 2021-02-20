@@ -24,7 +24,7 @@ function mt:update(dt)
             new_x = new_x + self.size
         end
 
-        flux.to(self, 0.5, {
+        flux.to(self, 0.2, {
             x = new_x,
             y = new_y
         }):oncomplete(function()
@@ -34,19 +34,19 @@ function mt:update(dt)
 end
 
 function mt:draw()
-    self.x = math.max(self.x, self.offset)
-    self.y = math.max(self.y, self.offset)
+    self.x = math.min(math.max(self.x, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
+    self.y = math.min(math.max(self.y, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
     love.graphics.rectangle('fill', self.x, self.y, self.size, self.size)
 end
 
 return {
-    new = function(x, y, size, offset)
+    new = function(x, y, size, maze_size, maze_offset)
         return setmetatable({
             x = x,
             y = y,
             size = size,
-            offset = offset,
-            speed = 220
+            maze_size = maze_size,
+            maze_offset = maze_offset
         }, mt)
     end
 }

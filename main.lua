@@ -12,7 +12,7 @@ function love.load()
     math.randomseed(os.time())
 
     maze = Maze.new(MAZE_SIZE, MAZE_SIZE, TILE_SIZE, MAZE_OFFSET, MAZE_OFFSET)
-    hero = Hero.new(0, 0, TILE_SIZE, MAZE_OFFSET)
+    hero = Hero.new(0, 0, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET)
 
     maze:create()
 end
