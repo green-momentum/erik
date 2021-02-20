@@ -24,16 +24,20 @@ function mt:draw()
     end
 end
 
+function mt:getStartAndGoal()
+  local rnd_s = math.floor(math.random(1, self.h))
+  local rnd_g = math.floor(math.random(1, self.h))
+
+  self.cells[rnd_s][1]:setLeft(true)
+  self.cells[rnd_g][self.w]:setRight(true)
+
+  return {
+    { i=rnd_s, j=1 },
+    { i=rnd_g, j=self.w }
+  }
+end
+
 function mt:recurse(i, j, stack)
-    -- print("-----------")
-    -- print(i)
-    -- print(j)
-    -- print("-----------")
-
-    print("-----------")
-    print(i)
-    print(j)
-
     self.cells[i][j]:setVisited(true)
 
     local n = {}
@@ -70,11 +74,6 @@ function mt:recurse(i, j, stack)
         }
     end
 
-    -- print(self.h)
-    -- print(inspect(n))
-    -- print(inspect(stack))
-    print("-----------")
-
     if #n > 0 then
         stack[#stack + 1] = {
             i = i,
@@ -106,9 +105,6 @@ function mt:recurse(i, j, stack)
         self:recurse(rnd_n.i, rnd_n.j, stack)
     elseif #stack > 0 then
         local pop = table.remove(stack, #stack)
-        print("####")
-        print(inspect(pop))
-        print("####")
         self:recurse(pop.i, pop.j, stack)
     end
 end
