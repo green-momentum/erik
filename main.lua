@@ -1,6 +1,6 @@
-local World = require 'world'
-local Maze = require 'maze'
-local Hero = require 'hero'
+local World = require 'src.world'
+local Maze = require 'src.maze'
+local Hero = require 'src.hero'
 
 local world, maze, hero
 
