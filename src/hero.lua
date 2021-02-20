@@ -15,14 +15,11 @@ function mt:update(dt)
 
         if love.keyboard.isDown('up') then
             new_y = new_y - self.size
-        end
-        if love.keyboard.isDown('down') then
+        elseif love.keyboard.isDown('down') then
             new_y = new_y + self.size
-        end
-        if love.keyboard.isDown('left') then
+        elseif love.keyboard.isDown('left') then
             new_x = new_x - self.size
-        end
-        if love.keyboard.isDown('right') then
+        elseif love.keyboard.isDown('right') then
             new_x = new_x + self.size
         end
 
