@@ -43,6 +43,5 @@ function love.draw(dt)
     love.graphics.scale(2, 2)
     --hero:draw()
     love.graphics.clear(43 / 255, 40 / 255, 33 / 255, 1)
-    love.graphics.setColor(121 / 255, 121 / 255, 121 / 255)
     maze:draw()
 end
