@@ -1,7 +1,9 @@
-local flux = require 'lib.flux'
-
 local mt = {}
 mt.__index = mt
+
+local flux = require 'lib.flux'
+local colors = require 'src.colors'
+
 local isKeyPressed = false
 
 function mt:update(dt)
@@ -36,6 +38,9 @@ end
 function mt:draw()
     self.x = math.min(math.max(self.x, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
     self.y = math.min(math.max(self.y, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
+
+    -- TODO: add hero asset here.
+    love.graphics.setColor(colors.GREEN_MINERAL)
     love.graphics.rectangle('fill', self.x, self.y, self.size, self.size)
 end
 

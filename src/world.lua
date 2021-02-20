@@ -1,8 +1,3 @@
-local TILE_SIZE = {
-    w = 20,
-    h = 20
-}
-
 local mt = {}
 mt.__index = mt
 
@@ -13,8 +8,7 @@ end
 return {
     new = function()
         return setmetatable({
-            items = {},
-            TILE_SIZE = TILE_SIZE
+            items = {}
         }, mt)
     end
 }
