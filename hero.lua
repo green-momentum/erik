@@ -1,18 +1,38 @@
+local flux = require 'lib.flux'
+
 local mt = {}
 mt.__index = mt
+local isKeyPressed = false
 
 function mt:update(dt)
-    if love.keyboard.isDown('up') then
-        self.y = self.y - dt * self.speed
-    end
-    if love.keyboard.isDown('down') then
-        self.y = self.y + dt * self.speed
-    end
-    if love.keyboard.isDown('left') then
-        self.x = self.x - dt * self.speed
-    end
-    if love.keyboard.isDown('right') then
-        self.x = self.x + dt * self.speed
+    flux.update(dt)
+
+    if isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
+        local new_x, new_y = self.x, self.y
+        isKeyPressed = true
+
+        if love.keyboard.isDown('up') then
+
+            new_y = new_y - 20
+        end
+        if love.keyboard.isDown('down') then
+
+            new_y = new_y + 20
+        end
+        if love.keyboard.isDown('left') then
+
+            new_x = new_x - 20
+        end
+        if love.keyboard.isDown('right') then
+            new_x = new_x + 20
+        end
+
+        flux.to(self, 0.5, {
+            x = new_x,
+            y = new_y
+        }):oncomplete(function()
+            isKeyPressed = false
+        end)
     end
 end
 
