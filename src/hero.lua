@@ -12,19 +12,16 @@ function mt:update(dt)
         isKeyPressed = true
 
         if love.keyboard.isDown('up') then
-
-            new_y = new_y - self.h
+            new_y = new_y - self.size
         end
         if love.keyboard.isDown('down') then
-
-            new_y = new_y + self.h
+            new_y = new_y + self.size
         end
         if love.keyboard.isDown('left') then
-
-            new_x = new_x - self.w
+            new_x = new_x - self.size
         end
         if love.keyboard.isDown('right') then
-            new_x = new_x + self.w
+            new_x = new_x + self.size
         end
 
         flux.to(self, 0.5, {
@@ -37,16 +34,18 @@ function mt:update(dt)
 end
 
 function mt:draw()
-    love.graphics.rectangle('fill', self.x, self.y, self.w, self.h)
+    self.x = math.max(self.x, self.offset)
+    self.y = math.max(self.y, self.offset)
+    love.graphics.rectangle('fill', self.x, self.y, self.size, self.size)
 end
 
 return {
-    new = function(x, y, w, h)
+    new = function(x, y, size, offset)
         return setmetatable({
             x = x,
             y = y,
-            w = w,
-            h = h,
+            size = size,
+            offset = offset,
             speed = 220
         }, mt)
     end
