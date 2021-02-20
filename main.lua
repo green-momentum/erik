@@ -15,11 +15,7 @@ function love.load()
 
     world = World.new()
     maze = Maze.new(MAZE_SIZE, MAZE_SIZE, TILE_SIZE, MAZE_OFFSET, MAZE_OFFSET)
-    -- hero = Hero.new(maze, TILE_SIZE)
-    -- flag = Flag.new(maze, TILE_SIZE)
-
-    -- TODO: get hero and flag positions from maze.
-    hero = Hero.new(0, 0, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET)
+    hero = Hero.new(0, 0, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET, 1, 1)
     flag = Flag.new(SCREEN_SIZE, SCREEN_SIZE, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET)
 
     world:add(maze)
@@ -36,7 +32,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    hero:update(dt)
+    hero:update(dt, maze)
 end
 
 function love.draw(dt)

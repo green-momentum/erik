@@ -6,21 +6,25 @@ local colors = require 'src.colors'
 
 local isKeyPressed = false
 
-function mt:update(dt)
+function mt:update(dt, maze)
     flux.update(dt)
 
     if isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
         local new_x, new_y = self.x, self.y
         isKeyPressed = true
 
-        if love.keyboard.isDown('up') then
+        if love.keyboard.isDown('up') and self.row - 1 > 0 and maze.cells[self.row][self.col].up then
             new_y = new_y - self.size
-        elseif love.keyboard.isDown('down') then
+            self.row = self.row - 1
+        elseif love.keyboard.isDown('down') and self.row + 1 < maze.h + 1 and maze.cells[self.row][self.col].down then
             new_y = new_y + self.size
-        elseif love.keyboard.isDown('left') then
+            self.row = self.row + 1
+        elseif love.keyboard.isDown('left') and self.col - 1 > 0 and maze.cells[self.row][self.col].left then
             new_x = new_x - self.size
-        elseif love.keyboard.isDown('right') then
+            self.col = self.col - 1
+        elseif love.keyboard.isDown('right') and self.col + 1 < maze.w + 1 and maze.cells[self.row][self.col].right then
             new_x = new_x + self.size
+            self.col = self.col + 1
         end
 
         flux.to(self, 0.2, {
@@ -42,13 +46,15 @@ function mt:draw()
 end
 
 return {
-    new = function(x, y, size, maze_size, maze_offset)
+    new = function(x, y, size, maze_size, maze_offset, row, col)
         return setmetatable({
             x = x,
             y = y,
             size = size,
             maze_size = maze_size,
-            maze_offset = maze_offset
+            maze_offset = maze_offset,
+            row = row,
+            col = col
         }, mt)
     end
 }
