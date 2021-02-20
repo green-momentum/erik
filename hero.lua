@@ -13,18 +13,18 @@ function mt:update(dt)
 
         if love.keyboard.isDown('up') then
 
-            new_y = new_y - 20
+            new_y = new_y - self.h
         end
         if love.keyboard.isDown('down') then
 
-            new_y = new_y + 20
+            new_y = new_y + self.h
         end
         if love.keyboard.isDown('left') then
 
-            new_x = new_x - 20
+            new_x = new_x - self.w
         end
         if love.keyboard.isDown('right') then
-            new_x = new_x + 20
+            new_x = new_x + self.w
         end
 
         flux.to(self, 0.5, {
@@ -41,12 +41,12 @@ function mt:draw()
 end
 
 return {
-    new = function(x, y)
+    new = function(x, y, w, h)
         return setmetatable({
             x = x,
             y = y,
-            w = 16,
-            h = 16,
+            w = w,
+            h = h,
             speed = 220
         }, mt)
     end

@@ -1,15 +1,16 @@
--- local World = require('world')
+local World = require 'world'
+local Maze = require 'maze'
 local Hero = require 'hero'
 
--- local hero, world
-local hero
+local world, maze, hero
 
 function love.load()
-    -- world = World.new()
+    world = World.new()
+    maze = Maze:new()
+    hero = Hero.new(0, 0, world.TILE_SIZE.w, world.TILE_SIZE.h)
 
-    -- TODO: shall we disable key repeat? I added this to move the hero one by one.
-    love.keyboard.setKeyRepeat(false)
-    hero = Hero.new(0, 0)
+    world:add(maze)
+    world:add(hero)
 end
 
 function love.update(dt)
