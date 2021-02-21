@@ -36,12 +36,10 @@ function mt:update(dt, maze, onEnd)
               end
             end)
         end)
-
     end
 end
 
 function mt:draw()
-    -- TODO: add hero asset here.
     love.graphics.setColor(colors.GREEN_MINERAL)
     love.graphics.rectangle('fill', self.x + 1, self.y + 1 - self.jump, 6, 6)
 end

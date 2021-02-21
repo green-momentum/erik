@@ -6,7 +6,6 @@ local opening_state = require 'src.opening_state'
 
 function love.load()
   sm = SM.new()
-
   sm:register("opening_state", opening_state)
   sm:register("game_state", game_state)
   sm:setState("opening_state")
