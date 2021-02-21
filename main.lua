@@ -8,28 +8,28 @@ local info_state = require 'src.info_state'
 local pre_state = require 'src.pre_state'
 
 function love.load()
-  sm = SM.new()
-  sm:register("opening_state", opening_state)
-  sm:register("info_state", info_state)
-  sm:register("pre_state", pre_state)
-  sm:register("game_state", game_state)
+    sm = SM.new()
+    sm:register("opening_state", opening_state)
+    sm:register("info_state", info_state)
+    sm:register("pre_state", pre_state)
+    sm:register("game_state", game_state)
 
-  sm:setState("opening_state")
+    sm:setState("opening_state")
 end
 
 function love.keypressed(key)
-  sm:keypressed(key)
+    sm:keypressed(key)
 end
 
 function love.update(dt)
-  flux.update(dt)
-  Timer.update(dt)
-  sm:update(dt)
+    flux.update(dt)
+    Timer.update(dt)
+    sm:update(dt)
 end
 
 function love.draw(dt)
-  --camera:attach()
-  -- do your drawing here
-  sm:draw(dt)
-  --camera:detach()
+    -- camera:attach()
+    -- do your drawing here
+    sm:draw(dt)
+    -- camera:detach()
 end
