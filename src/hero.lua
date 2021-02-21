@@ -1,57 +1,62 @@
+local flux = require 'lib.flux'
+local colors = require 'src.colors'
+local inspect = require 'lib.inspect'
+
 local mt = {}
 mt.__index = mt
 
-local flux = require 'lib.flux'
-local colors = require 'src.colors'
-
 local isKeyPressed = false
 
-function mt:getPixelPosition(cell)
-    return self.maze_offset + (cell - 1) * self.size
-end
-
-function mt:update(dt, maze)
-    flux.update(dt)
-
+function mt:update(dt, maze, onEnd)
     if isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
         isKeyPressed = true
         local n_row, n_col = self.row, self.col
 
         if love.keyboard.isDown('up') and n_row - 1 > 0 and maze.cells[n_row][n_col].up then
-            n_row = n_row - 1
-        elseif love.keyboard.isDown('down') and n_row + 1 < maze.h + 1 and maze.cells[n_row][n_col].down then
-            n_row = n_row + 1
+            self.row = self.row - 1
+        elseif love.keyboard.isDown('down') and n_row + 1 < maze.size + 1 and maze.cells[n_row][n_col].down then
+            self.row = self.row + 1
         elseif love.keyboard.isDown('left') and n_col - 1 > 0 and maze.cells[n_row][n_col].left then
-            n_col = n_col - 1
-        elseif love.keyboard.isDown('right') and n_col + 1 < maze.w + 1 and maze.cells[n_row][n_col].right then
-            n_col = n_col + 1
+            self.col = self.col - 1
+        elseif love.keyboard.isDown('right') and n_col + 1 < maze.size + 1 and maze.cells[n_row][n_col].right then
+            self.col = self.col + 1
         end
 
-        flux.to(self, 0.2, {
-            col = n_col,
-            row = n_row
+        print(inspect({self.row, self.col}))
+
+        flux.to(self, 0.15, {
+            x = (self.col - 1) * self.size + maze.offset,
+            y = (self.row - 1) * self.size + maze.offset,
+            jump = 2
         }):oncomplete(function()
-            isKeyPressed = false
+            flux.to(self, 0.05, { jump = 0 }):oncomplete(function()
+              isKeyPressed = false
+              if self.goal.row == self.row and self.goal.col == self.col then
+                onEnd()
+              end
+            end)
         end)
     end
 end
 
 function mt:draw()
-    local x, y = self:getPixelPosition(self.col), self:getPixelPosition(self.row)
-
-    -- TODO: add hero asset here.
     love.graphics.setColor(colors.GREEN_MINERAL)
-    love.graphics.rectangle('fill', x, y, self.size, self.size)
+    love.graphics.rectangle('fill', self.x + 1, self.y + 1 - self.jump, 6, 6)
 end
 
 return {
-    new = function(row, col, size, maze_size, maze_offset)
+    new = function(start, goal, size, offset)
+      local x = (start.col - 1) * size + offset
+      local y = (start.row - 1) * size + offset
+
         return setmetatable({
-            row = row,
-            col = col,
+            row = start.row,
+            col = start.col,
+            x = x,
+            y = y,
             size = size,
-            maze_size = maze_size,
-            maze_offset = maze_offset
+            goal = goal,
+            jump = 0
         }, mt)
     end
 }

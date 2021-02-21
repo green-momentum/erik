@@ -18,10 +18,10 @@ function mt:create()
     self:recurse(1, 1, {})
 end
 
-function mt:draw()
+function mt:draw(alpha)
     for i = 1, self.size do
         for j = 1, self.size do
-            self.cells[i][j]:draw(self.size, self.size, self.offset, self.offset)
+            self.cells[i][j]:draw(self.size, self.size, self.offset, self.offset, alpha)
         end
     end
 end
@@ -34,8 +34,8 @@ function mt:getStartAndGoal()
   self.cells[rnd_g][self.size]:setRight(true)
 
   return {
-    { i=rnd_s, j=1 },
-    { i=rnd_g, j=self.size }
+    start = { row=rnd_s, col=1 },
+    goal = { row=rnd_g, col=self.size }
   }
 end
 
