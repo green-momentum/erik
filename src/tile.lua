@@ -67,8 +67,8 @@ function mt:draw(w, h, offsetx, offsety, alpha)
         self:drawDown(offsetx, offsety)
     end
 
-    love.graphics.setColor(121 / 255, 121 / 255, 121 / 255, alpha)
-    love.graphics.rectangle("fill", x + self.size / 2 - 0.5, y + self.size / 2 - 0.5, 1, 1)
+    -- love.graphics.setColor(121 / 255, 121 / 255, 121 / 255, alpha)
+    -- love.graphics.rectangle("fill", x + self.size / 2 - 0.5, y + self.size / 2 - 0.5, 1, 1)
     -- love.graphics.points(x + self.size / 2 - 1, y + self.size / 2 - 1)
 end
 

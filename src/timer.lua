@@ -22,6 +22,7 @@ end
 return {
     new = function()
         return setmetatable({
+            secs = 0,
             start_time = 0,
             current = 0,
             limit = 0,
