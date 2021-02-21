@@ -1,6 +1,7 @@
+local Camera = require 'lib.camera'
+local Flag = require 'src.flag'
 local Hero = require 'src.hero'
 local Maze = require 'src.maze'
-local Camera = require 'lib.camera'
 local Timer = require 'src.timer'
 
 local game_state = {
@@ -26,6 +27,9 @@ local game_state = {
 
         local p = self.maze:getStartAndGoal()
 
+        self.img_flag = love.graphics.newImage("assets/flag.png")
+        self.flag = Flag.new(p.goal, self.tile_size, self.maze.offset)
+
         self.img_hero = love.graphics.newImage("assets/hero.png")
         self.hero = Hero.new(p.start, p.goal, self.tile_size, self.maze.offset)
 
@@ -41,15 +45,13 @@ local game_state = {
         self.hero:update(dt, self.maze, function()
             self.current_level = self.current_level + 1
             self.zoom = self:calculate_zoom()
-
             self.camera:zoomTo(self.zoom)
-
             self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
-
             self.maze:create()
-            local p = self.maze:getStartAndGoal()
 
+            local p = self.maze:getStartAndGoal()
             self.hero = Hero.new(p.start, p.goal, self.tile_size, self.maze.offset)
+            self.flag = Flag.new(p.goal, self.tile_size, self.maze.offset)
         end)
     end,
 
@@ -58,6 +60,7 @@ local game_state = {
         love.graphics.scale(2, 2)
         love.graphics.clear(43 / 255, 40 / 255, 33 / 255, 1)
         self.maze:draw(alpha)
+        self.flag:draw(self.img_flag)
         self.hero:draw(self.img_hero)
         self.camera:detach()
 
