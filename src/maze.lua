@@ -27,22 +27,16 @@ function mt:draw(alpha)
 end
 
 function mt:getStartAndGoal()
-    local rnd_s = math.floor(math.random(1, self.size))
-    local rnd_g = math.floor(math.random(1, self.size))
+  local rnd_s = math.floor(math.random(1, self.size))
+  local rnd_g = math.floor(math.random(1, self.size))
 
-    self.cells[rnd_s][1]:setLeft(true)
-    self.cells[rnd_g][self.size]:setRight(true)
+  self.cells[rnd_s][1]:setLeft(true)
+  self.cells[rnd_g][self.size]:setRight(true)
 
-    return {
-        start = {
-            row = rnd_s,
-            col = 1
-        },
-        goal = {
-            row = rnd_g,
-            col = self.size
-        }
-    }
+  return {
+    start = { row=rnd_s, col=1 },
+    goal = { row=rnd_g, col=self.size }
+  }
 end
 
 function mt:recurse(i, j, stack)

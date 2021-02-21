@@ -9,8 +9,9 @@ local isKeyPressed = false
 local isFlipped = false
 
 function mt:update(dt, maze, onEnd)
-    if isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
-        isKeyPressed = true
+    if self.isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
+        self.isKeyPressed = true
+
         local n_row, n_col = self.row, self.col
 
         if love.keyboard.isDown('up') and n_row - 1 > 0 and maze.cells[n_row][n_col].up then
@@ -27,18 +28,17 @@ function mt:update(dt, maze, onEnd)
 
         print(inspect({self.row, self.col}))
 
-        flux.to(self, 0.15, {
+        flux.to(self, 0.1, {
             x = (self.col - 1) * self.size + maze.offset,
             y = (self.row - 1) * self.size + maze.offset,
             jump = 2
         }):oncomplete(function()
-            flux.to(self, 0.05, {
-                jump = 0
-            }):oncomplete(function()
-                isKeyPressed = false
-                if self.goal.row == self.row and self.goal.col == self.col then
-                    onEnd()
-                end
+            flux.to(self, 0.1, { jump = 0 }):oncomplete(function()
+              if self.goal.row == self.row and self.goal.col == self.col then
+                onEnd()
+              else
+                self.isKeyPressed = false
+              end
             end)
         end)
     end
@@ -60,9 +60,8 @@ end
 
 return {
     new = function(start, goal, size, offset)
-        local x = (start.col - 1) * size + offset
-        local y = (start.row - 1) * size + offset
-
+      local x = (start.col - 1) * size + offset
+      local y = (start.row - 1) * size + offset
         return setmetatable({
             row = start.row,
             col = start.col,
@@ -70,7 +69,8 @@ return {
             y = y,
             size = size,
             goal = goal,
-            jump = 0
+            jump = 0,
+            isKeyPressed = false
         }, mt)
     end
 }
