@@ -5,9 +5,6 @@ local inspect = require 'lib.inspect'
 local mt = {}
 mt.__index = mt
 
-local isKeyPressed = false
-local isFlipped = false
-
 function mt:update(dt, maze, onEnd)
     if self.isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
         self.isKeyPressed = true
@@ -20,10 +17,10 @@ function mt:update(dt, maze, onEnd)
             self.row = self.row + 1
         elseif love.keyboard.isDown('left') and n_col - 1 > 0 and maze.cells[n_row][n_col].left then
             self.col = self.col - 1
-            isFlipped = true
+            self.isFlipped = true
         elseif love.keyboard.isDown('right') and n_col + 1 < maze.size + 1 and maze.cells[n_row][n_col].right then
             self.col = self.col + 1
-            isFlipped = false
+            self.isFlipped = false
         end
 
         print(inspect({self.row, self.col}))
@@ -49,7 +46,7 @@ end
 function mt:draw(asset)
     love.graphics.setColor(colors.WHITE)
     local scale_x, scale_y
-    if isFlipped then
+    if self.isFlipped then
         love.graphics.translate(asset:getWidth() / 5, 0)
         scale_x, scale_y = -0.20, 0.20
     else
@@ -72,7 +69,8 @@ return {
             size = size,
             goal = goal,
             jump = 0,
-            isKeyPressed = false
+            isKeyPressed = false,
+            isFlipped = false
         }, mt)
     end
 }
