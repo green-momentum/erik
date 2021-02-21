@@ -1,6 +1,8 @@
+local Camera = require 'lib.camera'
+
+local Flag = require 'src.flag'
 local Hero = require 'src.hero'
 local Maze = require 'src.maze'
-local Camera = require 'lib.camera'
 local Timer = require 'src.timer'
 
 local game_state = {
