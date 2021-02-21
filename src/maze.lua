@@ -5,10 +5,12 @@ local mt = {}
 mt.__index = mt
 
 function mt:create()
-    for i = 1, self.h do
+    self.offset = (self.screen_size - (self.size * self.cellsize)) / 2
+
+    for i = 1, self.size do
         self.cells[i] = {}
 
-        for j = 1, self.w do
+        for j = 1, self.size do
             self.cells[i][j] = Tile.new(i, j, self.cellsize)
         end
     end
@@ -17,23 +19,27 @@ function mt:create()
 end
 
 function mt:draw()
-    for i = 1, self.h do
-        for j = 1, self.w do
-            self.cells[i][j]:draw(self.w, self.h, self.offsetx, self.offsety)
+    for i = 1, self.size do
+        for j = 1, self.size do
+            self.cells[i][j]:draw(self.size, self.size, self.offset, self.offset)
         end
     end
 end
 
+function mt:getStartAndGoal()
+  local rnd_s = math.floor(math.random(1, self.size))
+  local rnd_g = math.floor(math.random(1, self.size))
+
+  self.cells[rnd_s][1]:setLeft(true)
+  self.cells[rnd_g][self.size]:setRight(true)
+
+  return {
+    { i=rnd_s, j=1 },
+    { i=rnd_g, j=self.size }
+  }
+end
+
 function mt:recurse(i, j, stack)
-    -- print("-----------")
-    -- print(i)
-    -- print(j)
-    -- print("-----------")
-
-    print("-----------")
-    print(i)
-    print(j)
-
     self.cells[i][j]:setVisited(true)
 
     local n = {}
@@ -46,7 +52,7 @@ function mt:recurse(i, j, stack)
         }
     end
 
-    if j ~= self.w and not self.cells[i][j + 1].visited then
+    if j ~= self.size and not self.cells[i][j + 1].visited then
         n[#n + 1] = {
             d = "right",
             i = i,
@@ -62,18 +68,13 @@ function mt:recurse(i, j, stack)
         }
     end
 
-    if i ~= self.h and not self.cells[i + 1][j].visited then
+    if i ~= self.size and not self.cells[i + 1][j].visited then
         n[#n + 1] = {
             d = "down",
             i = i + 1,
             j = j
         }
     end
-
-    -- print(self.h)
-    -- print(inspect(n))
-    -- print(inspect(stack))
-    print("-----------")
 
     if #n > 0 then
         stack[#stack + 1] = {
@@ -106,21 +107,16 @@ function mt:recurse(i, j, stack)
         self:recurse(rnd_n.i, rnd_n.j, stack)
     elseif #stack > 0 then
         local pop = table.remove(stack, #stack)
-        print("####")
-        print(inspect(pop))
-        print("####")
         self:recurse(pop.i, pop.j, stack)
     end
 end
 
 return {
-    new = function(w, h, cellsize, offsetx, offsety)
+    new = function(level, cellsize, screen_size)
         return setmetatable({
-            w = w,
-            h = h,
             cellsize = cellsize,
-            offsetx = offsetx,
-            offsety = offsety,
+            screen_size = screen_size,
+            size = math.floor(level^0.4 * 5),
             cells = {}
         }, mt)
     end

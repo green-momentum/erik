@@ -3,8 +3,9 @@ local Flag = require 'src.flag'
 local Hero = require 'src.hero'
 local Maze = require 'src.maze'
 
-local SCREEN_SIZE = 256
-local TILE_SIZE = 20
+local SCREEN_SIZE = 340
+local CURRENT_LEVEL = 1
+local TILE_SIZE = 10
 local MAZE_SIZE = 10
 local MAZE_OFFSET = (SCREEN_SIZE - (MAZE_SIZE * TILE_SIZE)) / 2
 
@@ -14,7 +15,7 @@ function love.load()
     math.randomseed(os.time())
 
     world = World.new()
-    maze = Maze.new(MAZE_SIZE, MAZE_SIZE, TILE_SIZE, MAZE_OFFSET, MAZE_OFFSET)
+    maze = Maze.new(CURRENT_LEVEL, TILE_SIZE, SCREEN_SIZE)
     hero = Hero.new(1, 1, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET)
     flag = Flag.new(SCREEN_SIZE, SCREEN_SIZE, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET)
 
@@ -23,11 +24,19 @@ function love.load()
     world:add(flag)
 
     maze:create()
+    maze:getStartAndGoal()
 end
 
 function love.keypressed(key)
     if key == "space" then
+        CURRENT_LEVEL = CURRENT_LEVEL + 1
+        print(CURRENT_LEVEL)
+
+        maze = Maze.new(CURRENT_LEVEL, TILE_SIZE, SCREEN_SIZE)
+        hero = Hero.new(0, 0, TILE_SIZE, MAZE_OFFSET)
+
         maze:create()
+        maze:getStartAndGoal()
     end
 end
 
@@ -36,7 +45,7 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-    love.graphics.scale(2, 2)
+    love.graphics.scale(1.5, 1.5)
     love.graphics.clear(43 / 255, 40 / 255, 33 / 255, 1)
 
     for _, item in ipairs(world.items) do

@@ -49,24 +49,27 @@ function mt:draw(w, h, offsetx, offsety)
   local x = (self.col - 1) * self.size + offsetx
   local y = (self.row - 1) * self.size + offsety
 
-  if (self.col ~= 1 and not self.left) then
+  love.graphics.setColor(121 / 255, 121 / 255, 121 / 255)
+
+  if (not self.left) then
     self:drawLeft(offsetx, offsety)
   end
 
-  if (self.col ~= w and not self.right) then
+  if (not self.right) then
     self:drawRight(offsetx, offsety)
   end
 
-  if (self.row ~= 1 and not self.up) then
+  if (not self.up) then
     self:drawUp(offsetx, offsety)
   end
 
-  if (self.row ~= h and not self.down) then
+  if (not self.down) then
     self:drawDown(offsetx, offsety)
   end
 
-  love.graphics.setColor(121 / 255, 121 / 255, 121 / 255)
-  love.graphics.points(x + self.size / 2, y + self.size / 2)
+  love.graphics.setColor(71 / 255, 67 / 255, 56 / 255)
+  love.graphics.rectangle("fill", x + self.size / 2 - 0.5, y + self.size / 2 - 0.5, 1, 1)
+  --love.graphics.points(x + self.size / 2 - 1, y + self.size / 2 - 1)
 end
 
 return {
@@ -79,7 +82,7 @@ return {
           left = false,
           right = false,
           up = false,
-          down = false
+          down = false,
         }, mt)
     end
 }
