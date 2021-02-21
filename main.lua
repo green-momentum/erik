@@ -6,6 +6,8 @@ local game_state = require 'src.game_state'
 local opening_state = require 'src.opening_state'
 local info_state = require 'src.info_state'
 local pre_state = require 'src.pre_state'
+local ending_state = require 'src.ending_state'
+local fail_state = require 'src.fail_state'
 
 function love.load()
     sm = SM.new()
@@ -13,6 +15,8 @@ function love.load()
     sm:register("info_state", info_state)
     sm:register("pre_state", pre_state)
     sm:register("game_state", game_state)
+    sm:register("ending_state", ending_state)
+    sm:register("fail_state", fail_state)
 
     sm:setState("opening_state")
 end

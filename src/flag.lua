@@ -3,8 +3,8 @@ mt.__index = mt
 
 local colors = require 'src.colors'
 
-function mt:draw(asset)
-    love.graphics.setColor(colors.WHITE)
+function mt:draw(asset, alpha)
+    love.graphics.setColor(1, 1, 1, alpha)
     love.graphics.draw(asset, self.x + 1, self.y + 1, 0, 0.20, 0.20)
 end
 

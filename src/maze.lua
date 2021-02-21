@@ -117,13 +117,38 @@ function mt:recurse(i, j, stack)
     end
 end
 
+function mt:pushPath(r, c)
+    self.path[#self.path+1] = { row = r, col = c }
+
+    if #self.path > 50 then
+        table.remove(self.path, 1)
+    end
+end
+
+function mt:drawPath(alpha)
+    for i = 1, #self.path - 1 do
+        local p = self.path[i]
+        local pn = self.path[i+1]
+
+        local x1 = (p.col - 1) * self.cellsize + self.offset + self.cellsize / 2
+        local y1 = (p.row - 1) * self.cellsize + self.offset+ self.cellsize / 2
+
+        local x2 = (pn.col - 1) * self.cellsize + self.offset+ self.cellsize / 2
+        local y2 = (pn.row - 1) * self.cellsize + self.offset+ self.cellsize / 2
+
+        love.graphics.setColor(176 / 255, 58 / 255, 72 / 255, alpha / 2)
+        love.graphics.line(x1, y1, x2, y2)
+    end
+end
+
 return {
     new = function(level, cellsize, screen_size)
         return setmetatable({
             cellsize = cellsize,
             screen_size = screen_size,
             size = math.floor(level ^ 0.4 * 5),
-            cells = {}
+            cells = {},
+            path = {}
         }, mt)
     end
 }
