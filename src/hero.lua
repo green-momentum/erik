@@ -33,12 +33,14 @@ function mt:update(dt, maze, onEnd)
             y = (self.row - 1) * self.size + maze.offset,
             jump = 2
         }):oncomplete(function()
-            flux.to(self, 0.1, { jump = 0 }):oncomplete(function()
-              if self.goal.row == self.row and self.goal.col == self.col then
-                onEnd()
-              else
-                self.isKeyPressed = false
-              end
+            flux.to(self, 0.1, {
+                jump = 0
+            }):oncomplete(function()
+                if self.goal.row == self.row and self.goal.col == self.col then
+                    onEnd()
+                else
+                    self.isKeyPressed = false
+                end
             end)
         end)
     end
@@ -60,8 +62,8 @@ end
 
 return {
     new = function(start, goal, size, offset)
-      local x = (start.col - 1) * size + offset
-      local y = (start.row - 1) * size + offset
+        local x = (start.col - 1) * size + offset
+        local y = (start.row - 1) * size + offset
         return setmetatable({
             row = start.row,
             col = start.col,
