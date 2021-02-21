@@ -4,6 +4,8 @@ local Camera = require 'lib.camera'
 local Timer = require 'src.timer'
 
 local game_state = {
+  current_level = 0,
+
   calculate_zoom = function(self)
     return 3 - (self.current_level^0.5 * 0.338) + self.current_level*0.0065
   end,
@@ -11,7 +13,7 @@ local game_state = {
   load = function(self)
     math.randomseed(os.time())
 
-    self.current_level = 1
+    self.current_level = self.current_level + 1
     self.screen_size = 340
     self.tile_size = 10
 
@@ -24,8 +26,8 @@ local game_state = {
     self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
     self.maze:create()
 
-    local p = self.maze:getStartAndGoal()
-    self.hero = Hero.new(p.start, p.goal, self.tile_size, self.maze.offset)
+    local points = self.maze:getStartAndGoal()
+    self.hero = Hero.new(points.start, points.goal, self.tile_size, self.maze.offset)
 
     --TODO: Pass to player
 
@@ -37,17 +39,17 @@ local game_state = {
   update = function(self, dt)
     self.timer:update()
     self.hero:update(dt, self.maze, function()
-      self.current_level = self.current_level + 1
-      self.zoom = self:calculate_zoom()
+      --self.zoom = self:calculate_zoom()
 
-      self.camera:zoomTo(self.zoom)
+      --self.camera:zoomTo(self.zoom)
 
-      self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
+      --self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
 
-      self.maze:create()
-      local p = self.maze:getStartAndGoal()
+      --self.maze:create()
+      --local points = self.maze:getStartAndGoal()
 
-      self.hero = Hero.new(p.start, p.goal, self.tile_size, self.maze.offset)
+      --self.hero = Hero.new(points.start, points.goal, self.tile_size, self.maze.offset)
+      sm:setState("pre_state")
     end)
   end,
 
@@ -61,6 +63,7 @@ local game_state = {
 
     love.graphics.setColor(0, 1, 0, alpha)
     love.graphics.print("GAME SCENE.", 100, 100)
+    love.graphics.print(self.current_level, 100, 120)
     --love.graphics.print(self.timer.limit - self.timer.secs, 250, 100)
   end,
 
@@ -70,7 +73,6 @@ local game_state = {
       self.zoom = self:calculate_zoom()
 
       self.camera:zoomTo(self.zoom)
-
       self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
 
       self.maze:create()
