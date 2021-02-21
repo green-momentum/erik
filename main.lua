@@ -1,44 +1,29 @@
-local Hero = require 'src.hero'
-local Maze = require 'src.maze'
-
-local maze, hero
-
-local SCREEN_SIZE = 340
-local CURRENT_LEVEL = 1
-local TILE_SIZE = 10
+local SM = require 'src.state_manager'
+local flux = require 'lib.flux'
+local inspect = require 'lib.inspect'
+local game_state = require 'src.game_state'
+local opening_state = require 'src.opening_state'
 
 function love.load()
-    math.randomseed(os.time())
+  sm = SM.new()
 
-    maze = Maze.new(CURRENT_LEVEL, TILE_SIZE, SCREEN_SIZE)
-    hero = Hero.new(0, 0, TILE_SIZE, MAZE_OFFSET)
-
-    maze:create()
-    maze:getStartAndGoal()
-    print(CURRENT_LEVEL)
+  sm:register("opening_state", opening_state)
+  sm:register("game_state", game_state)
+  sm:setState("opening_state")
 end
 
 function love.keypressed(key)
-    if key == "space" then
-        CURRENT_LEVEL = CURRENT_LEVEL + 1
-        print(CURRENT_LEVEL)
-
-        maze = Maze.new(CURRENT_LEVEL, TILE_SIZE, SCREEN_SIZE)
-        hero = Hero.new(0, 0, TILE_SIZE, MAZE_OFFSET)
-
-        maze:create()
-        maze:getStartAndGoal()
-    end
+  sm:keypressed(key)
 end
 
 function love.update(dt)
-    hero:update(dt)
+  flux.update(dt)
+  sm:update(dt)
 end
 
 function love.draw(dt)
-    love.graphics.scale(1.5, 1.5)
-    love.graphics.clear(43 / 255, 40 / 255, 33 / 255, 1)
-
-    --hero:draw()
-    maze:draw()
+  --camera:attach()
+  -- do your drawing here
+  sm:draw(dt)
+  --camera:detach()
 end

@@ -45,11 +45,11 @@ function mt:drawDown(offsetx, offsety)
   love.graphics.line(x, y + self.size, x + self.size, y + self.size)
 end
 
-function mt:draw(w, h, offsetx, offsety)
+function mt:draw(w, h, offsetx, offsety, alpha)
   local x = (self.col - 1) * self.size + offsetx
   local y = (self.row - 1) * self.size + offsety
 
-  love.graphics.setColor(121 / 255, 121 / 255, 121 / 255)
+  love.graphics.setColor(121 / 255, 121 / 255, 121 / 255, alpha)
 
   if (not self.left) then
     self:drawLeft(offsetx, offsety)
@@ -67,7 +67,7 @@ function mt:draw(w, h, offsetx, offsety)
     self:drawDown(offsetx, offsety)
   end
 
-  love.graphics.setColor(71 / 255, 67 / 255, 56 / 255)
+  love.graphics.setColor(71 / 255, 67 / 255, 56 / 255, alpha)
   love.graphics.rectangle("fill", x + self.size / 2 - 0.5, y + self.size / 2 - 0.5, 1, 1)
   --love.graphics.points(x + self.size / 2 - 1, y + self.size / 2 - 1)
 end

@@ -18,10 +18,10 @@ function mt:create()
     self:recurse(1, 1, {})
 end
 
-function mt:draw()
+function mt:draw(alpha)
     for i = 1, self.size do
         for j = 1, self.size do
-            self.cells[i][j]:draw(self.size, self.size, self.offset, self.offset)
+            self.cells[i][j]:draw(self.size, self.size, self.offset, self.offset, alpha)
         end
     end
 end

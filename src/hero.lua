@@ -5,8 +5,6 @@ mt.__index = mt
 local isKeyPressed = false
 
 function mt:update(dt)
-    flux.update(dt)
-
     if isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
         local new_x, new_y = self.x, self.y
         isKeyPressed = true
