@@ -27,16 +27,22 @@ function mt:draw(alpha)
 end
 
 function mt:getStartAndGoal()
-  local rnd_s = math.floor(math.random(1, self.size))
-  local rnd_g = math.floor(math.random(1, self.size))
+    local rnd_s = math.floor(math.random(1, self.size))
+    local rnd_g = math.floor(math.random(1, self.size))
 
-  self.cells[rnd_s][1]:setLeft(true)
-  self.cells[rnd_g][self.size]:setRight(true)
+    self.cells[rnd_s][1]:setLeft(true)
+    self.cells[rnd_g][self.size]:setRight(true)
 
-  return {
-    start = { row=rnd_s, col=1 },
-    goal = { row=rnd_g, col=self.size }
-  }
+    return {
+        start = {
+            row = rnd_s,
+            col = 1
+        },
+        goal = {
+            row = rnd_g,
+            col = self.size
+        }
+    }
 end
 
 function mt:recurse(i, j, stack)
@@ -116,7 +122,7 @@ return {
         return setmetatable({
             cellsize = cellsize,
             screen_size = screen_size,
-            size = math.floor(level^0.4 * 5),
+            size = math.floor(level ^ 0.4 * 5),
             cells = {}
         }, mt)
     end
