@@ -6,30 +6,30 @@ local colors = require 'src.colors'
 
 local isKeyPressed = false
 
+function mt:getPixelPosition(cell)
+    return self.maze_offset + (cell - 1) * self.size
+end
+
 function mt:update(dt, maze)
     flux.update(dt)
 
     if isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
-        local new_x, new_y = self.x, self.y
         isKeyPressed = true
+        local n_row, n_col = self.row, self.col
 
-        if love.keyboard.isDown('up') and self.row - 1 > 0 and maze.cells[self.row][self.col].up then
-            new_y = new_y - self.size
-            self.row = self.row - 1
-        elseif love.keyboard.isDown('down') and self.row + 1 < maze.h + 1 and maze.cells[self.row][self.col].down then
-            new_y = new_y + self.size
-            self.row = self.row + 1
-        elseif love.keyboard.isDown('left') and self.col - 1 > 0 and maze.cells[self.row][self.col].left then
-            new_x = new_x - self.size
-            self.col = self.col - 1
-        elseif love.keyboard.isDown('right') and self.col + 1 < maze.w + 1 and maze.cells[self.row][self.col].right then
-            new_x = new_x + self.size
-            self.col = self.col + 1
+        if love.keyboard.isDown('up') and n_row - 1 > 0 and maze.cells[n_row][n_col].up then
+            n_row = n_row - 1
+        elseif love.keyboard.isDown('down') and n_row + 1 < maze.h + 1 and maze.cells[n_row][n_col].down then
+            n_row = n_row + 1
+        elseif love.keyboard.isDown('left') and n_col - 1 > 0 and maze.cells[n_row][n_col].left then
+            n_col = n_col - 1
+        elseif love.keyboard.isDown('right') and n_col + 1 < maze.w + 1 and maze.cells[n_row][n_col].right then
+            n_col = n_col + 1
         end
 
         flux.to(self, 0.2, {
-            x = new_x,
-            y = new_y
+            col = n_col,
+            row = n_row
         }):oncomplete(function()
             isKeyPressed = false
         end)
@@ -37,24 +37,21 @@ function mt:update(dt, maze)
 end
 
 function mt:draw()
-    self.x = math.min(math.max(self.x, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
-    self.y = math.min(math.max(self.y, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
+    local x, y = self:getPixelPosition(self.col), self:getPixelPosition(self.row)
 
     -- TODO: add hero asset here.
     love.graphics.setColor(colors.GREEN_MINERAL)
-    love.graphics.rectangle('fill', self.x, self.y, self.size, self.size)
+    love.graphics.rectangle('fill', x, y, self.size, self.size)
 end
 
 return {
-    new = function(x, y, size, maze_size, maze_offset, row, col)
+    new = function(row, col, size, maze_size, maze_offset)
         return setmetatable({
-            x = x,
-            y = y,
+            row = row,
+            col = col,
             size = size,
             maze_size = maze_size,
-            maze_offset = maze_offset,
-            row = row,
-            col = col
+            maze_offset = maze_offset
         }, mt)
     end
 }

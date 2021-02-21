@@ -15,7 +15,7 @@ function love.load()
 
     world = World.new()
     maze = Maze.new(MAZE_SIZE, MAZE_SIZE, TILE_SIZE, MAZE_OFFSET, MAZE_OFFSET)
-    hero = Hero.new(0, 0, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET, 1, 1)
+    hero = Hero.new(1, 1, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET)
     flag = Flag.new(SCREEN_SIZE, SCREEN_SIZE, TILE_SIZE, MAZE_SIZE, MAZE_OFFSET)
 
     world:add(maze)
