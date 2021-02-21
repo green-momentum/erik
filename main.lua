@@ -3,8 +3,6 @@ local flux = require 'lib.flux'
 local game_state = require 'src.game_state'
 local opening_state = require 'src.opening_state'
 
-local sm
-
 function love.load()
     sm = SM.new()
     sm:register("opening_state", opening_state)

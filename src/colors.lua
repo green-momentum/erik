@@ -4,6 +4,7 @@ function GetRGB(r, g, b)
 end
 
 return {
+    WHITE = GetRGB(255, 255, 255), -- #ffffff
     BLACK_ZEUS = GetRGB(43, 40, 33), -- #2b2821
     BROWN_KABUL = GetRGB(98, 76, 60), -- #624c3c
     BROWN_BRANDY = GetRGB(217, 172, 139), -- #d9ac8b
