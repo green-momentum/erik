@@ -2,6 +2,7 @@ local opening_state = {
   load = function(self)
     self.font = love.graphics.newFont("assets/1980_font.ttf", 40)
     love.graphics.setFont(self.font)
+    love.graphics.setDefaultFilter("nearest", "nearest")
 
     self.logo = love.graphics.newImage("assets/erik_logo.png")
 

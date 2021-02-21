@@ -5,9 +5,13 @@ local inspect = require 'lib.inspect'
 local mt = {}
 mt.__index = mt
 
+local isKeyPressed = false
+local isFlipped = false
+
 function mt:update(dt, maze, onEnd)
     if self.isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
         self.isKeyPressed = true
+
         local n_row, n_col = self.row, self.col
 
         if love.keyboard.isDown('up') and n_row - 1 > 0 and maze.cells[n_row][n_col].up then
@@ -16,8 +20,10 @@ function mt:update(dt, maze, onEnd)
             self.row = self.row + 1
         elseif love.keyboard.isDown('left') and n_col - 1 > 0 and maze.cells[n_row][n_col].left then
             self.col = self.col - 1
+            isFlipped = true
         elseif love.keyboard.isDown('right') and n_col + 1 < maze.size + 1 and maze.cells[n_row][n_col].right then
             self.col = self.col + 1
+            isFlipped = false
         end
 
         print(inspect({self.row, self.col}))
@@ -38,16 +44,24 @@ function mt:update(dt, maze, onEnd)
     end
 end
 
-function mt:draw()
-    love.graphics.setColor(colors.GREEN_MINERAL)
-    love.graphics.rectangle('fill', self.x + 1, self.y + 1 - self.jump, 6, 6)
+function mt:draw(asset)
+    love.graphics.setColor(colors.WHITE)
+    local scale_x, scale_y
+    if isFlipped then
+        love.graphics.translate(asset:getWidth() / 5, 0)
+        scale_x, scale_y = -0.20, 0.20
+    else
+        love.graphics.translate(0, 0)
+        scale_x, scale_y = 0.20, 0.20
+    end
+
+    love.graphics.draw(asset, self.x + 1, self.y + 1 - self.jump, 0, scale_x, scale_y)
 end
 
 return {
     new = function(start, goal, size, offset)
       local x = (start.col - 1) * size + offset
       local y = (start.row - 1) * size + offset
-
         return setmetatable({
             row = start.row,
             col = start.col,

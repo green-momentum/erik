@@ -3,24 +3,29 @@ mt.__index = mt
 
 local colors = require 'src.colors'
 
-function mt:draw()
-    -- TODO: get flag position from maze.
-    self.x = math.min(math.max(self.x, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
-    self.y = math.min(math.max(self.y, self.maze_offset), self.maze_offset + (self.maze_size - 1) * self.size)
+function mt:draw(asset)
+    love.graphics.setColor(colors.WHITE)
+    love.graphics.draw(asset, self.x + 1, self.y + 1, 0, 0.20, 0.20)
+end
 
-    -- TODO: add chocolate asset here.
-    love.graphics.setColor(colors.YELLOW_CHENIN)
-    love.graphics.rectangle('fill', self.x, self.y, self.size, self.size)
+function mt:update(goal)
+    self.x = (goal.col - 1) * self.size + self.offset
+    self.y = (goal.row - 1) * self.size + self.offset
 end
 
 return {
-    new = function(x, y, size, maze_size, maze_offset)
+    new = function(goal, size, offset)
+        local x = (goal.col - 1) * size + offset
+        local y = (goal.row - 1) * size + offset
+
         return setmetatable({
+            row = goal.row,
+            col = goal.col,
             x = x,
             y = y,
             size = size,
-            maze_size = maze_size,
-            maze_offset = maze_offset
+            offset = offset,
+            goal = goal
         }, mt)
     end
 }

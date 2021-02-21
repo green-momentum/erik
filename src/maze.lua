@@ -116,7 +116,7 @@ return {
         return setmetatable({
             cellsize = cellsize,
             screen_size = screen_size,
-            size = math.floor(level^0.4 * 5),
+            size = math.floor(level ^ 0.4 * 5),
             cells = {}
         }, mt)
     end

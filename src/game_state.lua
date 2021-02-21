@@ -27,6 +27,11 @@ local game_state = {
     self.maze:create()
 
     local points = self.maze:getStartAndGoal()
+    
+    self.img_flag = love.graphics.newImage("assets/flag.png")
+    self.flag = Flag.new(points.goal, self.tile_size, self.maze.offset)
+
+    self.img_hero = love.graphics.newImage("assets/hero.png")
     self.hero = Hero.new(points.start, points.goal, self.tile_size, self.maze.offset)
 
     --TODO: Pass to player
@@ -58,7 +63,8 @@ local game_state = {
     love.graphics.scale(2, 2)
     love.graphics.clear(43 / 255, 40 / 255, 33 / 255, 1)
     self.maze:draw(alpha)
-    self.hero:draw()
+    self.flag:draw(self.img_flag)
+    self.hero:draw(self.img_hero)
     self.camera:detach()
 
     love.graphics.setColor(0, 1, 0, alpha)
