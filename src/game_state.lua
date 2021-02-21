@@ -22,18 +22,33 @@ local game_state = {
     self.camera:zoomTo(self.zoom)
 
     self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
-
     self.maze:create()
-    --TODO: Pass to player
-    self.maze:getStartAndGoal()
 
-    self.timer:start(10, function()
-      print("times up")
-    end)
+    local p = self.maze:getStartAndGoal()
+    self.hero = Hero.new(p.start, p.goal, self.tile_size, self.maze.offset)
+
+    --TODO: Pass to player
+
+    --self.timer:start(10, function()
+    --  print("times up")
+    --end)
   end,
 
   update = function(self, dt)
     self.timer:update()
+    self.hero:update(dt, self.maze, function()
+      self.current_level = self.current_level + 1
+      self.zoom = self:calculate_zoom()
+
+      self.camera:zoomTo(self.zoom)
+
+      self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
+
+      self.maze:create()
+      local p = self.maze:getStartAndGoal()
+
+      self.hero = Hero.new(p.start, p.goal, self.tile_size, self.maze.offset)
+    end)
   end,
 
   draw = function(self, dt, alpha)
@@ -41,10 +56,12 @@ local game_state = {
     love.graphics.scale(2, 2)
     love.graphics.clear(43 / 255, 40 / 255, 33 / 255, 1)
     self.maze:draw(alpha)
+    self.hero:draw()
     self.camera:detach()
+
     love.graphics.setColor(0, 1, 0, alpha)
     love.graphics.print("GAME SCENE.", 100, 100)
-    love.graphics.print(self.timer.limit - self.timer.secs, 250, 100)
+    --love.graphics.print(self.timer.limit - self.timer.secs, 250, 100)
   end,
 
   keypressed = function(self, key)
@@ -59,7 +76,7 @@ local game_state = {
       self.maze:create()
       self.maze:getStartAndGoal()
     else
-      sm:setState("opening_state")
+      --sm:setState("opening_state")
     end
   end
 }

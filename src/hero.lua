@@ -1,50 +1,64 @@
 local flux = require 'lib.flux'
+local colors = require 'src.colors'
+local inspect = require 'lib.inspect'
 
 local mt = {}
 mt.__index = mt
+
 local isKeyPressed = false
 
-function mt:update(dt)
+function mt:update(dt, maze, onEnd)
     if isKeyPressed == false and love.keyboard.isDown('up', 'down', 'left', 'right') then
-        local new_x, new_y = self.x, self.y
         isKeyPressed = true
+        local n_row, n_col = self.row, self.col
 
-        if love.keyboard.isDown('up') then
-            new_y = new_y - self.size
-        end
-        if love.keyboard.isDown('down') then
-            new_y = new_y + self.size
-        end
-        if love.keyboard.isDown('left') then
-            new_x = new_x - self.size
-        end
-        if love.keyboard.isDown('right') then
-            new_x = new_x + self.size
+        if love.keyboard.isDown('up') and n_row - 1 > 0 and maze.cells[n_row][n_col].up then
+            self.row = self.row - 1
+        elseif love.keyboard.isDown('down') and n_row + 1 < maze.size + 1 and maze.cells[n_row][n_col].down then
+            self.row = self.row + 1
+        elseif love.keyboard.isDown('left') and n_col - 1 > 0 and maze.cells[n_row][n_col].left then
+            self.col = self.col - 1
+        elseif love.keyboard.isDown('right') and n_col + 1 < maze.size + 1 and maze.cells[n_row][n_col].right then
+            self.col = self.col + 1
         end
 
-        flux.to(self, 0.5, {
-            x = new_x,
-            y = new_y
+        print(inspect({self.row, self.col}))
+
+        flux.to(self, 0.15, {
+            x = (self.col - 1) * self.size + maze.offset,
+            y = (self.row - 1) * self.size + maze.offset,
+            jump = 2
         }):oncomplete(function()
-            isKeyPressed = false
+            flux.to(self, 0.05, { jump = 0 }):oncomplete(function()
+              isKeyPressed = false
+              if self.goal.row == self.row and self.goal.col == self.col then
+                onEnd()
+              end
+            end)
         end)
+
     end
 end
 
 function mt:draw()
-    self.x = math.max(self.x, self.offset)
-    self.y = math.max(self.y, self.offset)
-    love.graphics.rectangle('fill', self.x, self.y, self.size, self.size)
+    -- TODO: add hero asset here.
+    love.graphics.setColor(colors.GREEN_MINERAL)
+    love.graphics.rectangle('fill', self.x + 1, self.y + 1 - self.jump, 6, 6)
 end
 
 return {
-    new = function(x, y, size, offset)
+    new = function(start, goal, size, offset)
+      local x = (start.col - 1) * size + offset
+      local y = (start.row - 1) * size + offset
+
         return setmetatable({
+            row = start.row,
+            col = start.col,
             x = x,
             y = y,
             size = size,
-            offset = offset,
-            speed = 220
+            goal = goal,
+            jump = 0
         }, mt)
     end
 }

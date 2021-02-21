@@ -34,8 +34,8 @@ function mt:getStartAndGoal()
   self.cells[rnd_g][self.size]:setRight(true)
 
   return {
-    { i=rnd_s, j=1 },
-    { i=rnd_g, j=self.size }
+    start = { row=rnd_s, col=1 },
+    goal = { row=rnd_g, col=self.size }
   }
 end
 
