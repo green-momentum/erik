@@ -68,8 +68,8 @@ function mt:draw(w, h, offsetx, offsety)
   end
 
   love.graphics.setColor(71 / 255, 67 / 255, 56 / 255)
-  --love.graphics.rectangle("fill", x + self.size / 2 - 1, y + self.size / 2 - 1, 2, 2)
-  love.graphics.points(x + self.size / 2 - 1, y + self.size / 2 - 1)
+  love.graphics.rectangle("fill", x + self.size / 2 - 0.5, y + self.size / 2 - 0.5, 1, 1)
+  --love.graphics.points(x + self.size / 2 - 1, y + self.size / 2 - 1)
 end
 
 return {
