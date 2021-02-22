@@ -10,6 +10,8 @@ local fail_state = {
         self.text = [[
 I was hoping I could find all the
    chocolates. I gave up now.
+
+ PRESS SPACE TO RESTART THE GAME
         ]]
     end,
 
