@@ -7,7 +7,7 @@ local Timer = require 'src.timer'
 local inspect = require 'lib.inspect'
 
 local game_state = {
-    current_level = 1,
+    current_level = 0,
     max_level = 30,
 
     calculate_zoom = function(self)
@@ -19,12 +19,12 @@ local game_state = {
         self.font = love.graphics.newFont("assets/1980_font.ttf", 40)
         love.graphics.setFont(self.font)
 
+        self.current_level = self.current_level + 1
 
         self.text = "FOUND CHOCOLATES: " .. (self.current_level - 1)
 
         math.randomseed(os.time())
 
-        self.current_level = self.current_level + 1
         self.screen_size = 340
         self.tile_size = 10
 

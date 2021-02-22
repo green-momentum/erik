@@ -29,9 +29,7 @@ local ending_state = {
 
     keypressed = function(self, key)
         if key == "space" then
-            Timer.after(3.8, function()
-                sm:setState("opening_state")
-            end)
+            sm:setState("opening_state")
         end
     end
 }
