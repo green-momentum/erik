@@ -28,7 +28,11 @@ function mt:update(dt, maze, onEnd)
 
         print(inspect({self.row, self.col}))
 
-        self.sfx_jump:play()
+        if self.row == self.goal.row and self.col == self.goal.col then
+            self.sfx_flag:play()
+        else
+            self.sfx_jump:play()
+        end
 
         flux.to(self, 0.1, {
             x = (self.col - 1) * self.size + maze.offset,
@@ -66,6 +70,7 @@ end
 return {
     new = function(start, goal, size, offset)
         local sfx_jump = love.audio.newSource("assets/jump.wav", "static")
+        local sfx_flag = love.audio.newSource("assets/flag.wav", "static")
         local x = (start.col - 1) * size + offset
         local y = (start.row - 1) * size + offset
         return setmetatable({
@@ -80,7 +85,8 @@ return {
             jump = 0,
             isKeyPressed = false,
             isFlipped = false,
-            sfx_jump = sfx_jump
+            sfx_jump = sfx_jump,
+            sfx_flag = sfx_flag
         }, mt)
     end
 }
