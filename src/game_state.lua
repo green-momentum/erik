@@ -52,6 +52,9 @@ local game_state = {
         self.hero = Hero.new(points.start, points.goal, self.tile_size, self.maze.offset)
         self.maze:pushPath(points.start.row, points.start.col)
 
+        local sfx_start = love.audio.newSource("assets/start.wav", "stream")
+        sfx_start:play()
+
         -- TODO: Pass to player
 
         -- self.timer:start(10, function()
