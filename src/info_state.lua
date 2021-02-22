@@ -15,7 +15,7 @@ stacked some chocolates in my room. Now
           room full of toys.
         ]]
 
-        Timer.after(10, function()
+        Timer.after(20, function()
             sm:setState("game_state")
         end)
     end,
@@ -31,6 +31,9 @@ stacked some chocolates in my room. Now
     end,
 
     keypressed = function(self, key)
+        if key == "space" then
+            sm:setState("game_state")
+        end
     end
 }
 
