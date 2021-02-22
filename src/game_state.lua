@@ -24,7 +24,6 @@ local game_state = {
 
         math.randomseed(os.time())
 
-        self.current_level = self.current_level + 1
         self.screen_size = 340
         self.tile_size = 10
 
@@ -77,6 +76,7 @@ local game_state = {
             if self.current_level == self.max_level then
                 sm:setState("ending_state")
             else
+                self.current_level = self.current_level + 1
                 sm:setState("pre_state")
             end
         end)

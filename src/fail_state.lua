@@ -28,9 +28,7 @@ I was hoping I could find all the
 
     keypressed = function(self, key)
         if key == "space" then
-            Timer.after(0.5, function()
-                sm:setState("opening_state")
-            end)
+            sm:setState("opening_state")
         end
     end
 }
