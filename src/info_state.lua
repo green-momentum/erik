@@ -13,11 +13,13 @@ chocolate today. However, I did not eat
 stacked some chocolates in my room. Now
  help me to find the chocolates in my
           room full of toys.
+
+     PRESS SPACE TO START THE GAME
         ]]
 
-        Timer.after(20, function()
-            sm:setState("game_state")
-        end)
+        -- Timer.after(20, function()
+        --     sm:setState("game_state")
+        -- end)
     end,
 
     update = function(self, dt)
@@ -27,7 +29,7 @@ stacked some chocolates in my room. Now
         love.graphics.clear(43 / 255, 40 / 255, 33 / 255, 1)
         love.graphics.setColor(121 / 255, 121 / 255, 121 / 255, alpha)
         love.graphics.print(self.opening_text, (680 - self.font:getWidth(self.opening_text)) / 2,
-            (680 - self.font:getHeight(self.opening_text)) / 3)
+            (680 - self.font:getHeight(self.opening_text)) / 4)
     end,
 
     keypressed = function(self, key)

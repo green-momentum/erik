@@ -106,18 +106,18 @@ local game_state = {
     end,
 
     keypressed = function(self, key)
-        if key == "space" then
-            self.current_level = self.current_level + 1
-            self.zoom = self:calculate_zoom()
+        -- if key == "space" then
+        --     self.current_level = self.current_level + 1
+        --     self.zoom = self:calculate_zoom()
 
-            self.camera:zoomTo(self.zoom)
-            self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
+        --     self.camera:zoomTo(self.zoom)
+        --     self.maze = Maze.new(self.current_level, self.tile_size, self.screen_size)
 
-            self.maze:create()
-            self.maze:getStartAndGoal()
-        else
-            -- sm:setState("opening_state")
-        end
+        --     self.maze:create()
+        --     self.maze:getStartAndGoal()
+        -- else
+        --     -- sm:setState("opening_state")
+        -- end
     end
 }
 

@@ -6,7 +6,7 @@ local opening_state = {
 
         self.logo = love.graphics.newImage("assets/erik_logo.png")
 
-        self.opening_text = "PRESS SPACE TO START THE GAME"
+        self.opening_text = "PRESS SPACE TO CONTINUE"
     end,
 
     update = function(self, dt)
