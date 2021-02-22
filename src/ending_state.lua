@@ -30,9 +30,7 @@ put the plum in the chest? Why...
 
     keypressed = function(self, key)
         if key == "space" then
-            Timer.after(3.8, function()
-                sm:setState("opening_state")
-            end)
+            sm:setState("opening_state")
         end
     end
 }
