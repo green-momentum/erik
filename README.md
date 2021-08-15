@@ -1,6 +1,8 @@
 # ERIK
 
-A pet game written in Godot & Rust. Our hero is a girl named Defne looking for chocolate in her messy room full of toys. The first version of this game was written in Lua & LÖVE.
+A pet game written in Lua. Our hero is a girl named Defne looking for chocolate in her messy room full of toys. The first version of this game was written in Lua & LÖVE.
+
+For Godot & Rust version, take a look at this [repository](https://github.com/gkmngrgn/plum).
 
 ## Authors
 
