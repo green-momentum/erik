@@ -18,7 +18,6 @@ command:
 ## EXPORT TO WEB
 
     npm i love.js
-    ./node_modules/.bin/love.js . web -c -t "erik" -m 34450958
     ./node_modules/.bin/love.js . web -c -t "erik" -m 40000000
     cd web
     python -m http.server
