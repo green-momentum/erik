@@ -2,7 +2,7 @@ local Timer = require "lib.timer"
 
 local info_state = {
     load = function(self)
-        self.font = love.graphics.newFont("assets/1980_font.ttf", 40)
+        self.font = love.graphics.newFont("assets/mr_pixel/Mister Pixel Regular.otf", 40)
         love.graphics.setFont(self.font)
 
         self.opening_text = [[
